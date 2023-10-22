@@ -11,6 +11,7 @@ npm i @babel/core @babel/cli @babel/node -D
 npm i @babel/preset-env -D
 npm i express
 npm i pug
+npm i ws
 ```
 
 - `실행`
@@ -74,4 +75,51 @@ http://localhost:3000/
       ㄴ> 템플릿 내에서 JavaScript 코드 실행이 가능
   3) 미리 컴파일
       ㄴ> 빠른 렌더링을 위해 템플릿을 미리 컴파일
+  ```
+
+  - WebSocket
+
+  ```
+  단일 TCP 연결을 통해 전체 양방향 통신 채널을 제공하는 프로토콜
+
+  전통적인 HTTP 요청/응답 모델과 달리
+  WebSocket은 서버와 클라이언트 간에 지속적인 연결을 유지,
+  한 쪽에서 데이터를 전송할 때마다 새 연결을 설정할 불필요
+
+
+  (특징)
+  1) 실시간 통신
+      ㄴ> 빠르고 실시간으로 데이터를 교환
+  2) 저 오버헤드
+      ㄴ> 한 번 연결되면, 데이터 패킷의 오버헤드가 최소화
+  3) 지속적인 연결
+      ㄴ> HTTP와는 달리, 연결이 지속적으로 유지되므로 채팅,
+          게임 및 실시간 애플리케이션에서 이상적
+  ```
+
+  ```javascript
+  /*
+  @ Express 함께 사용
+  
+  - express와 http 모듈을 사용하여 HTTP와 
+    WebSocket 서버를 동일한 포트에서 실행
+  
+  - express 앱을 생성하고 해당 앱을 기반으로 
+    http 서버를 만든 다음, 그 서버를 ws에 전달
+  */
+  const express = require("express");
+  const http = require("http");
+  const WebSocket = require("ws");
+
+  const app = express();
+  const server = http.createServer(app);
+  const wss = new WebSocket.Server({ server });
+
+  wss.on("connection", (ws) => {
+    // ... 이전 코드와 동일 ...
+  });
+
+  server.listen(8080, () => {
+    console.log("Server is listening on port 8080");
+  });
   ```
