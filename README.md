@@ -129,3 +129,9 @@ http://localhost:3000/
     console.log("Server is listening on port 8080");
   });
   ```
+
+> 주의
+
+```
+npm i "@socket.io/admin-ui"
+```
