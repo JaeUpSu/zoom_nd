@@ -177,6 +177,8 @@ socket.on("ice", (ice) => {
 
 // RTC Code
 
+// RTCPeerConnection 객체를 생성하고 ICE 서버를 설정
+// 이는 NAT 뒤에 있는 장치들 간의 피어 투 피어 연결을 가능
 function makeConnection() {
   myPeerConnection = new RTCPeerConnection({
     iceServers: [
@@ -198,11 +200,15 @@ function makeConnection() {
     .forEach((track) => myPeerConnection.addTrack(track, myStream));
 }
 
+// ICE 후보를 수집할 때마다 실행되는 함수
+// 이 후보를 다른 피어에게 전송
 function handleIce(data) {
   console.log("sent candidate");
   socket.emit("ice", data.candidate, roomName);
 }
 
+// 상대방의 미디어 스트림을 받았을 때 실행
+// 상대방의 비디오를 페이지에 표시
 function handleAddStream(data) {
   const peerFace = document.getElementById("peerFace");
   peerFace.srcObject = data.stream;
